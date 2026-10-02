@@ -144,7 +144,7 @@ size_t SDLGfx::LoadTexture(const std::string& filename)
     const size_t _texId = std::hash<std::string>()(filename);
 
     //si l'id est déjà dans ma map le retourne l'id
-    if (m_cacheMap.find(_texId) != m_cacheMap.end())
+    if (m_cacheMap.count(_texId) > 0)
     {
         return _texId;
     }
@@ -164,11 +164,11 @@ size_t SDLGfx::LoadTexture(const std::string& filename)
 void SDLGfx::DrawTexture(size_t id, const RectI& src, const RectF& dst, double angle, const Flip& flip, const Color& color)
 {
 
-    if (m_cacheMap.find(id) == m_cacheMap.end()) {
+    if (m_cacheMap.count(id) == 0) {
         return;
     }
 
-    SDL_Texture* _tex = m_cacheMap.find(id)->second;
+    SDL_Texture* _tex = m_cacheMap[id];
 
     SDL_Rect _srcRect{
         src.x,
@@ -264,7 +264,7 @@ size_t SDLGfx::LoadFont(const std::string& filename, int fontSize)
     const size_t _fontId = std::hash<std::string>()(filename);
 
     //si l'id est déjà dans ma map le retourne l'id
-    if (m_fontCache.find(_fontId) != m_fontCache.end())
+    if (m_fontCache.count(_fontId) > 0)
     {
         return _fontId;
     }
@@ -284,7 +284,7 @@ SDL_Texture* g_TextureBuffer;
 void SDLGfx::DrawString(const std::string& text, size_t fontId, float x, float y, const Color& color)
 {
 
-    if (m_fontCache.find(fontId) == m_fontCache.end()) {
+    if (m_fontCache.count(fontId) == 0) {
         return;
     }
 

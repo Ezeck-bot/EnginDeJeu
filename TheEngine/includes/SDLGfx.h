@@ -1,7 +1,6 @@
 #pragma once
 #include "IGfx.h"
-#include <unordered_map>
-
+#include <map>
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -11,6 +10,7 @@ struct _TTF_Font;
 //il faut mettre public pour que toutes les fonction soit accessible
 class SDLGfx final : public IGfx {
 public:
+
 	virtual int Init(const char* title, int w, int h) override;
 	virtual void Shutdown() override;
 
@@ -40,6 +40,6 @@ private:
 	SDL_Window* m_window;
 
 	//Cache
-	std::unordered_map<size_t, SDL_Texture*> m_cacheMap;
-	std::unordered_map<size_t, _TTF_Font*> m_fontCache;
+	std::map<size_t, SDL_Texture*> m_cacheMap;
+	std::map<size_t, _TTF_Font*> m_fontCache;
 };

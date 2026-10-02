@@ -9,8 +9,8 @@ void SDLAudio::Init()
 
 void SDLAudio::Shutdown()
 {
-
-    //détruit les texture alloué dans la vram sinon fuite de mémoire
+    Mix_HaltMusic();
+    //détruit les audios alloué dans la vram sinon fuite de mémoire
     for (auto& _pair : m_musicMap)
     {
         Mix_FreeMusic(_pair.second);
@@ -34,7 +34,7 @@ size_t SDLAudio::LoadMusic(const std::string& filename)
     const size_t _musicId = std::hash<std::string>()(filename);
 
     //si l'id est déjà dans ma map le retourne l'id
-    if (m_musicMap.find(_musicId) != m_musicMap.end())
+    if (m_musicMap.count(_musicId) > 0)
     {
         return _musicId;
     }
@@ -55,8 +55,8 @@ size_t SDLAudio::LoadSound(const std::string& filename)
 {
     const size_t _soundId = std::hash<std::string>()(filename);
 
-    //si l'id est déjà dans ma map le retourne l'id
-    if (m_soundMap.find(_soundId) != m_soundMap.end())
+    //si l'id est déjà dans ma map 'le retourne l'id
+    if (m_soundMap.count(_soundId) > 0 )
     {
         return _soundId;
     }
@@ -77,44 +77,44 @@ size_t SDLAudio::LoadSound(const std::string& filename)
 //music
 void SDLAudio::PlayMusic(size_t id)
 {
-    if (m_musicMap.find(id) == m_musicMap.end()) {
+    if (m_musicMap.count(id) == 0) {
         return;
     }
 
-    Mix_PlayMusic(m_musicMap.find(id)->second, -1);
+    Mix_PlayMusic(m_musicMap[id], -1);
 }
 
 void SDLAudio::PlayMusic(size_t id, int loop)
 {
 
-    if (m_musicMap.find(id) == m_musicMap.end()) {
+    if (m_musicMap.count(id) == 0) {
         return;
     }
 
     //-1 fait une loop, 0 joue que une fois, 1 joue deux fois au total
-    Mix_PlayMusic(m_musicMap.find(id)->second, loop);
+    Mix_PlayMusic(m_musicMap[id], loop);
 }
 
 
 //sfx
 void SDLAudio::PlaySFX(size_t id)
 {
-    if (m_soundMap.find(id) == m_soundMap.end()) {
+    if (m_soundMap.count(id) == 0) {
         return;
     }
 
     //-1 il prend le premier canal libre trouvé
-    Mix_PlayChannel(-1, m_soundMap.find(id)->second, 0);
+    Mix_PlayChannel(-1, m_soundMap[id], 0);
 }
 
 void SDLAudio::PlaySFX(size_t id, int loop)
 {
-    if (m_soundMap.find(id) == m_soundMap.end()) {
+    if (m_soundMap.count(id) == 0) {
         return;
     }
 
     //-1 fait une loop, 0 joue que une fois, 1 joue deux fois au total
-    Mix_PlayChannel(-1, m_soundMap.find(id)->second, loop);
+    Mix_PlayChannel(-1, m_soundMap[id], loop);
 }
 
 //Buuton

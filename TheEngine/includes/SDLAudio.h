@@ -1,6 +1,6 @@
 #pragma once
 #include "IAudio.h"
-#include <unordered_map>
+#include <map>
 
 struct _Mix_Music;
 typedef struct _Mix_Music Mix_Music;
@@ -23,8 +23,9 @@ public:
 	virtual void SetVolume(int volume) override;
 	virtual void SetVolume(size_t soundId, int volume) override;
 
+	//destructeur
 	virtual ~SDLAudio() = default;
 private:
-	std::unordered_map<size_t, Mix_Music*> m_musicMap;
-	std::unordered_map<size_t, Mix_Chunk*> m_soundMap;
+	std::map<size_t, Mix_Music*> m_musicMap;
+	std::map<size_t, Mix_Chunk*> m_soundMap;
 };

@@ -20,5 +20,6 @@ int main(int argc, char** argv) {
 	eng->Init("Battle City", 800, 600);
 	eng->Start();
 
+	delete eng;
 	return 0;
 }

@@ -39,6 +39,8 @@ public:
 
 class IGfx {
 public:
+	virtual ~IGfx() = default;
+
 	virtual int Init(const char* title, int w, int h) = 0; //ok
 	virtual void Shutdown() = 0; //ok
 
