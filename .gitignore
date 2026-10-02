@@ -1,0 +1,31 @@
+# --- Dossier build (entièrement ignoré) ---
+build/
+
+# --- Visual Studio / IDE ---
+.vs/
+*.user
+*.suo
+.idea/
+
+# --- Sorties de compilation ---
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+obj/
+*.obj
+*.o
+*.pdb
+*.ilk
+*.ipch
+*.tlog
+*.log
+*.recipe
+*.lastbuildstate
+
+# --- Node ---
+node_modules/
+
+# --- Système ---
+Thumbs.db
+.DS_Store
