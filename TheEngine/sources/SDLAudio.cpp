@@ -11,18 +11,18 @@ void SDLAudio::Shutdown()
 {
     Mix_HaltMusic();
     //détruit les audios alloué dans la vram sinon fuite de mémoire
-    for (auto& _pair : m_musicMap)
+    for (auto& _pair : m_musicCache)
     {
         Mix_FreeMusic(_pair.second);
     }
-    m_musicMap.clear();
+    m_musicCache.clear();
 
     //font
-    for (auto& _pair : m_soundMap)
+    for (auto& _pair : m_soundCache)
     {
         Mix_FreeChunk(_pair.second);
     }
-    m_soundMap.clear();
+    m_soundCache.clear();
 
     Mix_CloseAudio();
 
@@ -34,7 +34,7 @@ size_t SDLAudio::LoadMusic(const std::string& filename)
     const size_t _musicId = std::hash<std::string>()(filename);
 
     //si l'id est déjà dans ma map le retourne l'id
-    if (m_musicMap.count(_musicId) > 0)
+    if (m_musicCache.count(_musicId) > 0)
     {
         return _musicId;
     }
@@ -43,7 +43,7 @@ size_t SDLAudio::LoadMusic(const std::string& filename)
     Mix_Music* _music = Mix_LoadMUS(filename.c_str());
     if (_music != NULL)
     {
-        m_musicMap[_musicId] = _music;
+        m_musicCache[_musicId] = _music;
 
         return _musicId;
     }
@@ -56,7 +56,7 @@ size_t SDLAudio::LoadSound(const std::string& filename)
     const size_t _soundId = std::hash<std::string>()(filename);
 
     //si l'id est déjà dans ma map 'le retourne l'id
-    if (m_soundMap.count(_soundId) > 0 )
+    if (m_soundCache.count(_soundId) > 0 )
     {
         return _soundId;
     }
@@ -65,7 +65,7 @@ size_t SDLAudio::LoadSound(const std::string& filename)
     Mix_Chunk* _sound = Mix_LoadWAV(filename.c_str());
     if (_sound != NULL)
     {
-        m_soundMap[_soundId] = _sound;
+        m_soundCache[_soundId] = _sound;
 
         return _soundId;
     }
@@ -77,44 +77,44 @@ size_t SDLAudio::LoadSound(const std::string& filename)
 //music
 void SDLAudio::PlayMusic(size_t id)
 {
-    if (m_musicMap.count(id) == 0) {
+    if (m_musicCache.count(id) == 0) {
         return;
     }
 
-    Mix_PlayMusic(m_musicMap[id], -1);
+    Mix_PlayMusic(m_musicCache[id], -1);
 }
 
 void SDLAudio::PlayMusic(size_t id, int loop)
 {
 
-    if (m_musicMap.count(id) == 0) {
+    if (m_musicCache.count(id) == 0) {
         return;
     }
 
     //-1 fait une loop, 0 joue que une fois, 1 joue deux fois au total
-    Mix_PlayMusic(m_musicMap[id], loop);
+    Mix_PlayMusic(m_musicCache[id], loop);
 }
 
 
 //sfx
 void SDLAudio::PlaySFX(size_t id)
 {
-    if (m_soundMap.count(id) == 0) {
+    if (m_soundCache.count(id) == 0) {
         return;
     }
 
     //-1 il prend le premier canal libre trouvé
-    Mix_PlayChannel(-1, m_soundMap[id], 0);
+    Mix_PlayChannel(-1, m_soundCache[id], 0);
 }
 
 void SDLAudio::PlaySFX(size_t id, int loop)
 {
-    if (m_soundMap.count(id) == 0) {
+    if (m_soundCache.count(id) == 0) {
         return;
     }
 
     //-1 fait une loop, 0 joue que une fois, 1 joue deux fois au total
-    Mix_PlayChannel(-1, m_soundMap[id], loop);
+    Mix_PlayChannel(-1, m_soundCache[id], loop);
 }
 
 //Buuton
@@ -141,4 +141,9 @@ void SDLAudio::SetVolume(int volume)
 
 void SDLAudio::SetVolume(size_t soundId, int volume)
 {
+    if (m_soundCache.count(soundId) == 0) {
+        return;
+    }
+
+    Mix_VolumeChunk(m_soundCache[soundId], volume);
 }

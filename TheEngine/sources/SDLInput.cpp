@@ -26,8 +26,6 @@ void SDLInput::Update()
         case SDL_MOUSEBUTTONDOWN:
             SDL_MouseButtonEvent _buttonDown = _event.button;
 
-            /*SDL_Log("Button down : %d)", _buttonDown.button);
-            SDL_Log("at (%d, %d)", _buttonDown.x, _buttonDown.y);*/
 
             if (_buttonDown.button < 3) m_MouseStates[_buttonDown.button] = true;
             m_MouseX = _buttonDown.x;
@@ -37,9 +35,6 @@ void SDLInput::Update()
 
         case SDL_MOUSEBUTTONUP:
             SDL_MouseButtonEvent _buttonUp = _event.button;
-
-            /*SDL_Log("Button up : %d", _buttonUp.button);
-            SDL_Log("at (%d, %d)", _buttonUp.x, _buttonUp.y);*/
 
             if (_buttonUp.button < 3) m_MouseStates[_buttonUp.button] = true;
             m_MouseX = _buttonUp.x;

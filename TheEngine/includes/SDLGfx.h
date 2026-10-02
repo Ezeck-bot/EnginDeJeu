@@ -15,15 +15,25 @@ public:
 	virtual void Shutdown() override;
 
 	virtual void SetColor(const Color& color) override;
+
+	//effacer
 	virtual void Clear() override;
+
+	//presenter
 	virtual void Present() override;
+
+	//dessiner les lignes autour d'un rectangle
 	virtual void DrawRect(float x, float y, float w, float h, const Color& color) override;
-
-
 	virtual void DrawRect(const RectF& rect, const Color& color) override;
+
+	//dessiner un rectangles plein
 	virtual void Fillrect(float x, float y, float w, float h, const Color& color) override;
 	virtual void Fillrect(const RectF& rect, const Color& color) override;
+
+	//dessiner une ligne
 	virtual void DrawLine(float x1, float y1, float x2, float y2, const Color& color) override;
+
+	//Load une image que je mettre mettre dans un cache
 	virtual size_t LoadTexture(const std::string& filename) override;
 	virtual void DrawTexture(size_t id, const RectI& src, const RectF& dst, double angle, const Flip& flip, const Color& color) override;
 	virtual void DrawTexture(size_t id, const RectF& dst, const Color& color) override;

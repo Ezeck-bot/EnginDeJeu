@@ -26,6 +26,6 @@ public:
 	//destructeur
 	virtual ~SDLAudio() = default;
 private:
-	std::map<size_t, Mix_Music*> m_musicMap;
-	std::map<size_t, Mix_Chunk*> m_soundMap;
+	std::map<size_t, Mix_Music*> m_musicCache;
+	std::map<size_t, Mix_Chunk*> m_soundCache;
 };

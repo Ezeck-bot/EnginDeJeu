@@ -13,5 +13,7 @@ private:
     const unsigned char* m_KeyStates = nullptr;
     int m_MouseX = 0;
     int m_MouseY = 0;
+
+    // 1 = clic gauche, 2 pour la molette, 3 pour le clic droit
     bool m_MouseStates[3]{ false, false, false };
 };

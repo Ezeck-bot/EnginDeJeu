@@ -18,16 +18,16 @@ bool homer::Engine::Init(const char* title, int w, int h) {
 #endif 
 
     m_gfx = new SDLGfx();
-    if (!m_gfx->Init(title, w, h))
+    if (!homer::Engine::Get()->Gfx()->Init(title, w, h))
     {
         return false;
     }
 
     //image
-    m_textureId = m_gfx->LoadTexture("Assets/Images/test.png");
+    m_textureId = homer::Engine::Get()->Gfx()->LoadTexture("Assets/Images/test.png");
 
     //font
-    m_fontId = m_gfx->LoadFont("Assets/Fonts/Inter-VariableFont.ttf", 50);
+    m_fontId = homer::Engine::Get()->Gfx()->LoadFont("Assets/Fonts/Inter-VariableFont.ttf", 50);
 
     //audio
     m_audio = new SDLAudio();
@@ -54,16 +54,16 @@ void homer::Engine::Start() {
     
 
     //music de fond
-    m_musicId = m_audio->LoadMusic("Assets/Audio/SoundTrack2.wav");
-    m_audio->PlayMusic(m_musicId, -1);
-    m_audio->SetVolume(m_volumeBase);
+    m_musicId = homer::Engine::Get()->Audio()->LoadMusic("Assets/Audio/SoundTrack2.wav");
+    homer::Engine::Get()->Audio()->PlayMusic(m_musicId, -1);
+    homer::Engine::Get()->Audio()->SetVolume(m_volumeBase);
     m_currentVolume = m_volumeBase;
 
     //effet sonore (sfx)
-    m_soundId = m_audio->LoadSound("Assets/Audio/098_Unpause_04.wav");
+    m_soundId = homer::Engine::Get()->Audio()->LoadSound("Assets/Audio/098_Unpause_04.wav");
 
-    //console
-    m_logger->Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!! Bienvenue dans ConsoleLogger !!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    //pour affcher un message de début dans la console
+    homer::Engine::Get()->LoggerF()->Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!! Bienvenue dans ConsoleLogger !!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 
 
@@ -94,24 +94,26 @@ void homer::Engine::Start() {
 float m_x, m_y;
 void homer::Engine::ProcessInput() {
 
-    m_input->Update();
+    homer::Engine::Get()->Input()->Update();
 
-    //la souris
-    //int mouseX = 0;
-    //int mouseY = 0;
-    //m_input->GetMousePosition(&mouseX, &mouseY);
+    //Controle de la souris
+    int _mouseX = 0;
+    int _mouseY = 0;
+    homer::Engine::Get()->Input()->GetMousePosition(&_mouseX, &_mouseY);
 
-    //if (m_input->IsButtonDown(1)) { // 1 = clic gauche
-    //    m_x = mouseX - 50;
-    //    m_y = mouseY - 50;
-    //}
+    if (homer::Engine::Get()->Input()->IsButtonDown(1)) { 
+        m_x = _mouseX - 50;
+        m_y = _mouseY - 50;
+    }
 
 }
 
 void homer::Engine::Update(float dt) {
-    //m_input->IsKeyDown(SDL_SCANCODE_A)
+
     if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_A)) {
         m_x -= 100 * dt;
+
+        //je modifie ma variable flip pour que je puisse la psser adns la fonction
         m_flip.h = true;
     }
 
@@ -178,6 +180,8 @@ void homer::Engine::Update(float dt) {
     }
 }
 
+
+//FPS
 void homer::Engine::SetTargetFPS(int fps, clock_t start)
 {
     //faire une conversion du fps en float pour que la divison soit exact
@@ -189,25 +193,27 @@ void homer::Engine::SetTargetFPS(int fps, clock_t start)
      if (s >= 0) Sleep(s);
 }
 
-void homer::Engine::Render() {
-    //appelle de fonction
-    m_gfx->Clear();
 
-    //m_gfx->DrawRect(m_x, m_y, 100, 100, {0, 255, 0, 0});
-    //m_gfx->Fillrect(m_x, m_y, 100, 100, {0, 0, 255, 0});
-    //m_gfx->DrawLine(2.0, 2.0, 100.0, 100.0, { 0, 0, 255, 0 });
+//Render
+void homer::Engine::Render() {
+    //clear
+    homer::Engine::Get()->Gfx()->Clear();
+
+    homer::Engine::Get()->Gfx()->DrawRect(m_x, m_y, 100, 100, {0, 255, 0, 0});
+    homer::Engine::Get()->Gfx()->Fillrect(m_x, m_y, 100, 100, {0, 0, 255, 0});
+    homer::Engine::Get()->Gfx()->DrawLine(2.0, 2.0, 100.0, 100.0, { 0, 255, 255, 0 });
     
-    //m_gfx->DrawTexture(m_textureId, { m_x, m_y, 150, 150}, {255, 255, 255, 255});
+    //homer::Engine::Get()->Gfx()->DrawTexture(m_textureId, { m_x, m_y, 150, 150}, {255, 255, 255, 255});
 
     int w = 0, h = 0;
-    m_gfx->GetTextureSize(m_textureId, &w, &h); // taille réelle de la texture
+    homer::Engine::Get()->Gfx()->GetTextureSize(m_textureId, &w, &h); // taille réelle de la texture
 
     RectI src{ 0, 0, w, h};
     RectF dst{ (float)m_x, (float)m_y, 150, 150 };
-    m_gfx->DrawTexture(m_textureId, src, dst, 0.0, Flip{ m_flip.h, m_flip.v }, Color{ 255, 255, 255, 255 });
+    homer::Engine::Get()->Gfx()->DrawTexture(m_textureId, src, dst, 0.0, Flip{ m_flip.h, m_flip.v }, Color{ 255, 255, 255, 255 });
 
     
-    m_gfx->DrawString(
+    homer::Engine::Get()->Gfx()->DrawString(
         "Battle City \n wasd pour bouger le player \n K pour Play la music \n I pour jouer un sfx \n P pour mettre pause a la musique \n R pour continuer la music \n H pour stop la music \n J Pour diminuer le volume \n L pour augmenter le volume",
         m_fontId, 
         0, 
@@ -215,12 +221,13 @@ void homer::Engine::Render() {
         { 0, 0, 255, 255 }
     );
 
-    m_gfx->Present();
+    //prenst
+    homer::Engine::Get()->Gfx()->Present();
 }
 
 void homer::Engine::Shutdown() {
 
-    m_gfx->Shutdown();
+    homer::Engine::Get()->Gfx()->Shutdown();
     m_audio->Shutdown();
 
     //delete
