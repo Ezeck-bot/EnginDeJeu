@@ -4,6 +4,7 @@
 #include "IInput.h"
 #include "ILogger.h"
 #include "IAudio.h"
+#include "World.h"
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -12,6 +13,7 @@ class SDLIGfx;
 class ConsoleLogger;
 class FileLogger;
 class SDLAudio;
+class World;
 
 namespace homer {
 	//empecher que la classe engin soit herite avec le mot cle final
@@ -40,6 +42,7 @@ namespace homer {
 		IInput* Input() { return m_input; };
 		ILogger* LoggerF() { return m_logger; };
 		IAudio* Audio() { return m_audio; };
+		World* WorlD() { return m_world; };
 	private:
 		//ici on gere la gestion de la detection des message
 
@@ -58,6 +61,7 @@ namespace homer {
 		IInput* m_input;
 		ILogger* m_logger;
 		IAudio* m_audio;
+		World* m_world;
 		bool m_IsRunning = false;
 		bool m_IsInit = false;
 

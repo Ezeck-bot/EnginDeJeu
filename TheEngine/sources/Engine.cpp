@@ -5,6 +5,7 @@
 #include "SDLAudio.h";
 #include "ConsoleLogger.h";
 #include "FileLogger.h";
+#include "World.h";
 #include <Windows.h> // a cause de sleep
 
 
@@ -16,6 +17,9 @@ bool homer::Engine::Init(const char* title, int w, int h) {
 #else
     m_logger = new FileLogger();
 #endif 
+
+    //monde
+    m_world = new World();
 
     m_gfx = new SDLGfx();
     if (!homer::Engine::Get()->Gfx()->Init(title, w, h))
@@ -109,6 +113,8 @@ void homer::Engine::ProcessInput() {
 }
 
 void homer::Engine::Update(float dt) {
+    //monde
+    m_world->Update(dt);
 
     if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_A)) {
         m_x -= 100 * dt;
@@ -199,29 +205,32 @@ void homer::Engine::Render() {
     //clear
     homer::Engine::Get()->Gfx()->Clear();
 
-    homer::Engine::Get()->Gfx()->DrawRect(m_x, m_y, 100, 100, {0, 255, 0, 0});
+    //monde
+    m_world->Draw();
+
+    /*homer::Engine::Get()->Gfx()->DrawRect(m_x, m_y, 100, 100, {0, 255, 0, 0});
     homer::Engine::Get()->Gfx()->Fillrect(m_x, m_y, 100, 100, {0, 0, 255, 0});
-    homer::Engine::Get()->Gfx()->DrawLine(2.0, 2.0, 100.0, 100.0, { 0, 255, 255, 0 });
+    homer::Engine::Get()->Gfx()->DrawLine(2.0, 2.0, 100.0, 100.0, { 0, 255, 255, 0 });*/
     
     //homer::Engine::Get()->Gfx()->DrawTexture(m_textureId, { m_x, m_y, 150, 150}, {255, 255, 255, 255});
 
-    int w = 0, h = 0;
-    homer::Engine::Get()->Gfx()->GetTextureSize(m_textureId, &w, &h); // taille réelle de la texture
+    //int w = 0, h = 0;
+    //homer::Engine::Get()->Gfx()->GetTextureSize(m_textureId, &w, &h); // taille réelle de la texture
 
-    RectI src{ 0, 0, w, h};
-    RectF dst{ (float)m_x, (float)m_y, 150, 150 };
-    homer::Engine::Get()->Gfx()->DrawTexture(m_textureId, src, dst, 0.0, Flip{ m_flip.h, m_flip.v }, Color{ 255, 255, 255, 255 });
+    //RectI src{ 0, 0, w, h};
+    //RectF dst{ (float)m_x, (float)m_y, 150, 150 };
+    //homer::Engine::Get()->Gfx()->DrawTexture(m_textureId, src, dst, 0.0, Flip{ m_flip.h, m_flip.v }, Color{ 255, 255, 255, 255 });
 
-    
-    homer::Engine::Get()->Gfx()->DrawString(
-        "Battle City \n wasd pour bouger le player \n K pour Play la music \n I pour jouer un sfx \n P pour mettre pause a la musique \n R pour continuer la music \n H pour stop la music \n J Pour diminuer le volume \n L pour augmenter le volume",
-        m_fontId, 
-        0, 
-        0, 
-        { 0, 0, 255, 255 }
-    );
+    //
+    //homer::Engine::Get()->Gfx()->DrawString(
+    //    "Battle City \n wasd pour bouger le player \n K pour Play la music \n I pour jouer un sfx \n P pour mettre pause a la musique \n R pour continuer la music \n H pour stop la music \n J Pour diminuer le volume \n L pour augmenter le volume",
+    //    m_fontId, 
+    //    0, 
+    //    0, 
+    //    { 0, 0, 255, 255 }
+    //);
 
-    //prenst
+    //present
     homer::Engine::Get()->Gfx()->Present();
 }
 
@@ -231,6 +240,8 @@ void homer::Engine::Shutdown() {
     m_audio->Shutdown();
 
     //delete
+    delete m_world;
+    m_world = NULL;
     delete m_audio;
     m_audio = NULL;
     delete m_input;
