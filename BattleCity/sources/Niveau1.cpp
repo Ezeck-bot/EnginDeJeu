@@ -1,10 +1,12 @@
 #include "../includes/Niveau1.h"
-#include "../includes/Enemy.h"
-#include <Engine.h>
+#include "Engine.h"
+#include "World.h"
+#include "Entity.h"
+#include "TexteComponent.h"
 
 void Niveau1::Load()
 {
-    Entity* e1 = new Enemy("enemy1");
-
-    homer::Engine::Get()->WorlD()->Add(e1);
+    //afficher le texte
+    homer::Entity* intro = homer::Engine::Get()->world()->Create("intro");
+    intro->AddComponent<TexteComponent>("Niveau 1");
 }

@@ -55,7 +55,7 @@ size_t SDLAudio::LoadSound(const std::string& filename)
 {
     const size_t _soundId = std::hash<std::string>()(filename);
 
-    //si l'id est déjà dans ma map 'le retourne l'id
+    //si l'id est déjà dans ma map je retourne l'id
     if (m_soundCache.count(_soundId) > 0 )
     {
         return _soundId;

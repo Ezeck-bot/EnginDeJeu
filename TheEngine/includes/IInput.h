@@ -27,6 +27,7 @@ enum class Keys {
     Key_X,
     Key_Y,
     Key_Z,
+    SPACE,
 };
 class IInput {
 public:

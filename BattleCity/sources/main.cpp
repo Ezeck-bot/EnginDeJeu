@@ -24,11 +24,11 @@ int main(int argc, char** argv) {
 	eng->Init("Battle City", 800, 600);
 
 	//enregistrer les scenes
-	eng->WorlD()->Register("Menu", new Menu());
-	eng->WorlD()->Register("Menu", new Niveau1());
+	eng->world()->Register("Menu", new Menu());
+	eng->world()->Register("Niveau1", new Niveau1());
 
 	// Charger la scène de départ
-	eng->WorlD()->Load("Menu");
+	eng->world()->Load("Menu");
 
 
 	//lance le jeu

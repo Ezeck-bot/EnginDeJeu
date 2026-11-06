@@ -30,6 +30,13 @@ namespace homer {
     {
     }
 
+    Entity* World::Create(const std::string& name)
+    {
+        Entity* _e = new Entity(name);
+        Add(_e);
+        return _e;
+    }
+
     Entity* World::Find(const std::string& name)
     {
         if (m_entityMap.count(name) > 0) {

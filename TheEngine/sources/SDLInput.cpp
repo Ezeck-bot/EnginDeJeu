@@ -72,6 +72,7 @@ int keys[] = {
     27,
     28,
     29,
+    44,
 };
 bool SDLInput::IsKeyDown(int keycode)
 {

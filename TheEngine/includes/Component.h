@@ -1,16 +1,21 @@
 #pragma once
 #include <Entity.h>
 
-class Component
-{
-public:
-    virtual ~Component() = default;
-    Component();
-    Component(Entity* parent);
+namespace homer {
+    class Component
+    {
+    public:
+        virtual ~Component() = default;
+        Component() = default;
+        Component(homer::Entity* parent);
 
-    virtual void Start() {}
-    virtual void Destroy() {}
+        virtual void Start() {}
+        /*virtual void Update(float dt) {}
+        virtual void Draw() {}*/
+        virtual void Destroy() {}
 
-protected:
-    Entity* m_Entity = nullptr;
-};
+    protected:
+        homer::Entity* m_Entity = nullptr;
+        friend class Entity;
+    };
+}

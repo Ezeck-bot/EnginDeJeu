@@ -38,11 +38,11 @@ namespace homer {
 		void Start();
 
 		//mes servives de ma facade Engine
-		IGfx* Gfx() { return m_gfx; };
-		IInput* Input() { return m_input; };
-		ILogger* LoggerF() { return m_logger; };
-		IAudio* Audio() { return m_audio; };
-		World* WorlD() { return m_world; };
+		IGfx* gfx() { return m_gfx; };
+		IInput* input() { return m_input; };
+		ILogger* logger() { return m_logger; };
+		IAudio* audio() { return m_audio; };
+		World* world() { return m_world; };
 	private:
 		//ici on gere la gestion de la detection des message
 

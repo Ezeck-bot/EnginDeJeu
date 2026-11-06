@@ -3,9 +3,10 @@
 #include <vector>
 #include <map>
 
-class Entity;
 
 namespace homer {
+    
+    class Entity;
 
     class IScene;
 
@@ -18,7 +19,8 @@ namespace homer {
         void Draw();
 
         //gestion des entity
-        void Add(Entity* entity);
+        Entity* World::Create(const std::string& name);
+        void Add(Entity* entity); //c'est que le world qui l'utilise on passe que pas Create
         void Remove(Entity* entity);
         Entity* Find(const std::string& name);
 

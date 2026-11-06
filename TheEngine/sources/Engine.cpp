@@ -22,20 +22,20 @@ bool homer::Engine::Init(const char* title, int w, int h) {
     m_world = new World();
 
     m_gfx = new SDLGfx();
-    if (!homer::Engine::Get()->Gfx()->Init(title, w, h))
+    if (!homer::Engine::Get()->gfx()->Init(title, w, h))
     {
         return false;
     }
 
     //image
-    m_textureId = homer::Engine::Get()->Gfx()->LoadTexture("Assets/Images/test.png");
+    m_textureId = homer::Engine::Get()->gfx()->LoadTexture("Assets/Images/test.png");
 
     //font
-    m_fontId = homer::Engine::Get()->Gfx()->LoadFont("Assets/Fonts/Inter-VariableFont.ttf", 50);
+    m_fontId = homer::Engine::Get()->gfx()->LoadFont("Assets/Fonts/Inter-VariableFont.ttf", 50);
 
     //audio
     m_audio = new SDLAudio();
-    m_audio->Init();
+    //m_audio->Init();
 
 
     //input
@@ -58,16 +58,16 @@ void homer::Engine::Start() {
     
 
     //music de fond
-    m_musicId = homer::Engine::Get()->Audio()->LoadMusic("Assets/Audio/SoundTrack2.wav");
-    homer::Engine::Get()->Audio()->PlayMusic(m_musicId, -1);
-    homer::Engine::Get()->Audio()->SetVolume(m_volumeBase);
+    m_musicId = homer::Engine::Get()->audio()->LoadMusic("Assets/Audio/SoundTrack2.wav");
+    homer::Engine::Get()->audio()->PlayMusic(m_musicId, -1);
+    homer::Engine::Get()->audio()->SetVolume(m_volumeBase);
     m_currentVolume = m_volumeBase;
 
     //effet sonore (sfx)
-    m_soundId = homer::Engine::Get()->Audio()->LoadSound("Assets/Audio/098_Unpause_04.wav");
+    m_soundId = homer::Engine::Get()->audio()->LoadSound("Assets/Audio/098_Unpause_04.wav");
 
     //pour affcher un message de début dans la console
-    homer::Engine::Get()->LoggerF()->Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!! Bienvenue dans ConsoleLogger !!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    homer::Engine::Get()->logger()->Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!! Bienvenue dans ConsoleLogger !!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 
 
@@ -98,14 +98,14 @@ void homer::Engine::Start() {
 float m_x, m_y;
 void homer::Engine::ProcessInput() {
 
-    homer::Engine::Get()->Input()->Update();
+    homer::Engine::Get()->input()->Update();
 
     //Controle de la souris
     int _mouseX = 0;
     int _mouseY = 0;
-    homer::Engine::Get()->Input()->GetMousePosition(&_mouseX, &_mouseY);
+    homer::Engine::Get()->input()->GetMousePosition(&_mouseX, &_mouseY);
 
-    if (homer::Engine::Get()->Input()->IsButtonDown(1)) { 
+    if (homer::Engine::Get()->input()->IsButtonDown(1)) { 
         m_x = _mouseX - 50;
         m_y = _mouseY - 50;
     }
@@ -116,27 +116,27 @@ void homer::Engine::Update(float dt) {
     //monde
     m_world->Update(dt);
 
-    if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_A)) {
-        m_x -= 100 * dt;
+    //if (homer::Engine::Get()->input()->IsKeyDown((int)Keys::Key_A)) {
+    //    m_x -= 100 * dt;
 
-        //je modifie ma variable flip pour que je puisse la psser adns la fonction
-        m_flip.h = true;
-    }
+    //    //je modifie ma variable flip pour que je puisse la psser adns la fonction
+    //    m_flip.h = true;
+    //}
 
-    if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_D)) {
-        m_x += 100 * dt;
-        m_flip.h = false;
-    }
+    //if (homer::Engine::Get()->input()->IsKeyDown((int)Keys::Key_D)) {
+    //    m_x += 100 * dt;
+    //    m_flip.h = false;
+    //}
 
-    if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_W)) {
-        m_y -= 100 * dt;
-        m_flip.v = false;
-    }
+    //if (homer::Engine::Get()->input()->IsKeyDown((int)Keys::Key_W)) {
+    //    m_y -= 100 * dt;
+    //    m_flip.v = false;
+    //}
 
-    if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_S)) {
-        m_y += 100 * dt;
-        m_flip.v = true;
-    }
+    //if (homer::Engine::Get()->input()->IsKeyDown((int)Keys::Key_S)) {
+    //    m_y += 100 * dt;
+    //    m_flip.v = true;
+    //}
 
 
     //audio
@@ -147,42 +147,48 @@ void homer::Engine::Update(float dt) {
     //H pour stop la music
     //J Pour diminuer le volume
     //L pour augmenter le volume
-    if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_K)) {
+    //if (homer::Engine::Get()->input()->IsKeyDown((int)Keys::Key_K)) {
 
-        homer::Engine::Get()->Audio()->PlayMusic(m_musicId);
-    }
+    //    homer::Engine::Get()->audio()->PlayMusic(m_musicId);
+    //}
 
-    if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_I)) {
-       
-        homer::Engine::Get()->Audio()->PlaySFX(m_soundId, 0);
-    }
+    //if (homer::Engine::Get()->input()->IsKeyDown((int)Keys::Key_I)) {
+    //   
+    //    homer::Engine::Get()->audio()->PlaySFX(m_soundId, 0);
+    //}
 
-    if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_P)) {
+    //if (homer::Engine::Get()->input()->IsKeyDown((int)Keys::Key_P)) {
 
-        homer::Engine::Get()->Audio()->PauseMusic();
-    }
+    //    homer::Engine::Get()->audio()->PauseMusic();
+    //}
 
-    if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_R)) {
+    //if (homer::Engine::Get()->input()->IsKeyDown((int)Keys::Key_R)) {
 
-        homer::Engine::Get()->Audio()->ResumeMusic();
-    }
+    //    homer::Engine::Get()->audio()->ResumeMusic();
+    //}
 
-    if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_H)) {
+    //if (homer::Engine::Get()->input()->IsKeyDown((int)Keys::Key_H)) {
 
-        homer::Engine::Get()->Audio()->StopMusic();
-    }
+    //    homer::Engine::Get()->audio()->StopMusic();
+    //}
 
-    //volume
-    if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_J) && m_currentVolume > 0) {
+    ////volume
+    //if (homer::Engine::Get()->input()->IsKeyDown((int)Keys::Key_J) && m_currentVolume > 0) {
 
-        m_currentVolume--;
-        m_audio->SetVolume(m_currentVolume);
-    }
+    //    m_currentVolume--;
+    //    m_audio->SetVolume(m_currentVolume);
+    //}
 
-    if (homer::Engine::Get()->Input()->IsKeyDown((int)Keys::Key_L) && m_currentVolume < m_volumeBase) {
+    //if (homer::Engine::Get()->input()->IsKeyDown((int)Keys::Key_L) && m_currentVolume < m_volumeBase) {
 
-        m_currentVolume++;
-        m_audio->SetVolume(m_currentVolume);
+    //    m_currentVolume++;
+    //    m_audio->SetVolume(m_currentVolume);
+    //}
+
+    //scene
+    if (homer::Engine::Get()->input()->IsKeyDown((int)Keys::SPACE)) {
+
+        world()->Load("Niveau1");
     }
 }
 
@@ -203,26 +209,26 @@ void homer::Engine::SetTargetFPS(int fps, clock_t start)
 //Render
 void homer::Engine::Render() {
     //clear
-    homer::Engine::Get()->Gfx()->Clear();
+    homer::Engine::Get()->gfx()->Clear();
 
     //monde
     m_world->Draw();
 
-    /*homer::Engine::Get()->Gfx()->DrawRect(m_x, m_y, 100, 100, {0, 255, 0, 0});
-    homer::Engine::Get()->Gfx()->Fillrect(m_x, m_y, 100, 100, {0, 0, 255, 0});
-    homer::Engine::Get()->Gfx()->DrawLine(2.0, 2.0, 100.0, 100.0, { 0, 255, 255, 0 });*/
+    /*homer::Engine::Get()->gfx()->DrawRect(m_x, m_y, 100, 100, {0, 255, 0, 0});
+    homer::Engine::Get()->gfx()->Fillrect(m_x, m_y, 100, 100, {0, 0, 255, 0});
+    homer::Engine::Get()->gfx()->DrawLine(2.0, 2.0, 100.0, 100.0, { 0, 255, 255, 0 });*/
     
-    //homer::Engine::Get()->Gfx()->DrawTexture(m_textureId, { m_x, m_y, 150, 150}, {255, 255, 255, 255});
+    //homer::Engine::Get()->gfx()->DrawTexture(m_textureId, { m_x, m_y, 150, 150}, {255, 255, 255, 255});
 
     //int w = 0, h = 0;
-    //homer::Engine::Get()->Gfx()->GetTextureSize(m_textureId, &w, &h); // taille réelle de la texture
+    //homer::Engine::Get()->gfx()->GetTextureSize(m_textureId, &w, &h); // taille réelle de la texture
 
     //RectI src{ 0, 0, w, h};
     //RectF dst{ (float)m_x, (float)m_y, 150, 150 };
-    //homer::Engine::Get()->Gfx()->DrawTexture(m_textureId, src, dst, 0.0, Flip{ m_flip.h, m_flip.v }, Color{ 255, 255, 255, 255 });
+    //homer::Engine::Get()->gfx()->DrawTexture(m_textureId, src, dst, 0.0, Flip{ m_flip.h, m_flip.v }, Color{ 255, 255, 255, 255 });
 
     //
-    //homer::Engine::Get()->Gfx()->DrawString(
+    //homer::Engine::Get()->gfx()->DrawString(
     //    "Battle City \n wasd pour bouger le player \n K pour Play la music \n I pour jouer un sfx \n P pour mettre pause a la musique \n R pour continuer la music \n H pour stop la music \n J Pour diminuer le volume \n L pour augmenter le volume",
     //    m_fontId, 
     //    0, 
@@ -231,12 +237,12 @@ void homer::Engine::Render() {
     //);
 
     //present
-    homer::Engine::Get()->Gfx()->Present();
+    homer::Engine::Get()->gfx()->Present();
 }
 
 void homer::Engine::Shutdown() {
 
-    homer::Engine::Get()->Gfx()->Shutdown();
+    homer::Engine::Get()->gfx()->Shutdown();
     m_audio->Shutdown();
 
     //delete

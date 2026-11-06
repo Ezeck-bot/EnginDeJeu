@@ -31,7 +31,9 @@ project.kore = false;
 project.addDefine("KINC_STATIC_COMPILE");
 project.isStaticLib = true;
 
+project.addIncludeDir(path.resolve("./BattleCity/includes"));
 project.addIncludeDir(path.resolve("./TheEngine/includes"));
+project.addIncludeDir(path.resolve("./TheEngine/includes/Components"));
 project.addFiles('sources/**','includes/**');
 
 project.addProvider(project,false);
