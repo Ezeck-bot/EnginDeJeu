@@ -19,12 +19,18 @@ namespace homer {
     }
 
     void Entity::Draw() {
+
+        if (!m_active) return;
+
         for (IDrawable* d : m_drawables) {
             d->Draw();
         }
     }
 
     void Entity::Update(float dt) {
+
+        if (!m_active) return;
+
         for (IUpdatable* u : m_updatables) {
             u->Update(dt);
         }

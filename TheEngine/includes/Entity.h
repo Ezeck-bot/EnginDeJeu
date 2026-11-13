@@ -62,6 +62,10 @@ namespace homer {
         void SetPositionX(float x) { m_x = x; }
         void SetPositionY(float y) { m_y = y; }
 
+        //methodes pour la balle
+        void SetActive(bool active) { m_active = active; }
+        bool IsActive() const { return m_active; }
+
     private:
         std::string m_Name;
         std::vector<Component*> m_components;
@@ -71,6 +75,9 @@ namespace homer {
         //variable de position
         float m_x = 0.0f;
         float m_y = 0.0f;
+
+        //varaible pour la balle
+        bool m_active = true;
     };
 
 

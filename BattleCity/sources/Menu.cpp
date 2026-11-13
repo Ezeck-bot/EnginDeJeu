@@ -6,6 +6,7 @@
 #include <AnimationComponent.h>
 #include <ControllerComponent.h>
 #include <EnemyComponent.h>
+#include <BulletComponent.h>
 
 
 
@@ -38,15 +39,27 @@ void Menu::Load() {
     //----ENEMY
     homer::Entity* enemy1 = homer::Engine::Get()->world()->Create("Enemy1");
 
-    AtlasComponent* atlas = enemy1->AddComponent<AtlasComponent>("Assets/Images/Enemy.png");
-    atlas->AddFrame("haut", 0, 0, 32, 32);
-    atlas->AddFrame("droite", 32, 0, 32, 32);
-    atlas->AddFrame("bas", 64, 0, 32, 32);
-    atlas->AddFrame("gauche", 96, 0, 32, 32);
-    atlas->SetFrame("bas");
+    AtlasComponent* enemy_position = enemy1->AddComponent<AtlasComponent>("Assets/Images/Enemy.png");
+    enemy_position->AddFrame("haut", 0, 0, 32, 32);
+    enemy_position->AddFrame("droite", 32, 0, 32, 32);
+    enemy_position->AddFrame("bas", 64, 0, 32, 32);
+    enemy_position->AddFrame("gauche", 96, 0, 32, 32);
+    enemy_position->SetFrame("bas");
 
     enemy1->AddComponent<EnemyComponent>();
 
     
+    //Bullet
+    homer::Entity* bullet = homer::Engine::Get()->world()->Create("Bullet");
+    AtlasComponent* image_bullet = bullet->AddComponent<AtlasComponent>("Assets/Images/Bullet2.png");
+    image_bullet->AddFrame("haut", 0, 0, 6, 7);
+    image_bullet->AddFrame("droite", 7, 0, 6, 7);
+    image_bullet->AddFrame("bas", 14, 0, 6, 7);
+    image_bullet->AddFrame("gauche", 22, 0, 6, 7);
+    //position initiale
+    //image_bullet->SetFrame("haut");
 
+
+    bullet->AddComponent<BulletComponent>();
+    bullet->SetActive(false);
 }
