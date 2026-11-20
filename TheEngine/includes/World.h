@@ -12,7 +12,7 @@ namespace homer {
 
     class World final {
     public:
-        ~World() = default;
+        ~World();
 
         //utilisé par l'engin
         void Update(float dt);

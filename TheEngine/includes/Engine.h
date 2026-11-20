@@ -67,8 +67,6 @@ namespace homer {
 
 		//sauvegarde état
 		size_t m_textureId = 0;
-		size_t m_musicId = 0;
-		size_t m_soundId = 0;
 
 		//pour connaître l'orientation du player
 		Flip m_flip{ false, false };
@@ -76,7 +74,6 @@ namespace homer {
 		
 
 		int m_volumeBase = 100;
-		int m_currentVolume;
 
 	protected:
 		friend class SDLInput;

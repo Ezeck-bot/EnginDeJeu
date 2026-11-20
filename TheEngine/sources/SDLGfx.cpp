@@ -6,7 +6,7 @@
 int SDLGfx::Init(const char* title, int w, int h)
 {
     //commencer par initialiser les sous système de SDL
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_SENSOR) != 0) {
         ////SDL_INIT_VIDEO | SDL_INIT_EVENTS
         SDL_Log(SDL_GetError());
         return false;

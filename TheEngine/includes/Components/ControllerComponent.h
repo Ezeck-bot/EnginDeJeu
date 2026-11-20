@@ -18,4 +18,11 @@ private:
 	//position de base, le player regarde en haut
 	float m_dirX = 0.0f;
 	float m_dirY = -1.0f;
+
+	size_t m_musicId = 0;
+	size_t m_soundId = 0;
+
+	//volume audio
+	int m_volumeBase = 100;
+	int m_currentVolume;
 };

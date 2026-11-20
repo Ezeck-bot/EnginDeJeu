@@ -3,7 +3,13 @@
 #include <IScene.h>
 
 namespace homer {
-
+    World::~World()
+    {
+        Unload();
+        for (auto scene : m_scenes) {
+            if(scene.second) delete scene.second;
+        }
+    }
     void World::Update(float dt)
     {
         for (auto entity : m_entityInWorld) {
@@ -70,13 +76,12 @@ namespace homer {
 
     void World::Unload()
     {
-        if (m_currentScene != nullptr) {
-            for (auto entity : m_entityInWorld) {
-                entity->Destroy();
-                delete entity;
-            }
-            m_entityInWorld.clear();
-            m_entityMap.clear();
+        for (auto entity : m_entityInWorld) {
+            entity->Destroy();
+            delete entity;
         }
+        m_entityInWorld.clear();
+        m_entityMap.clear();
+        m_currentScene = nullptr;
     }
 }
