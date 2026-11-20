@@ -14,7 +14,7 @@ void Niveau1::Load()
     homer::Entity* niveau1 = homer::Engine::Get()->world()->Create("niveau1");
 
     //Texte
-    niveau1->AddComponent<TexteComponent>("Niveau 1 \n `WASD` pour bouger le player \n `F` pour tirer \n `K` pour Play la music \n `I` pour jouer un sfx \n `P` pour mettre pause a la musique \n `R` pour continuer la music \n `H` pour stop la music \n `J` Pour diminuer le volume \n `L` pour augmenter le volume");
+    niveau1->AddComponent<TexteComponent>("Niveau 1 \n `E` pour stop anim \n `WASD` pour bouger le player \n `F` pour tirer \n `K` pour Play la music \n `I` pour jouer un sfx \n `P` pour mettre pause a la musique \n `R` pour continuer la music \n `H` pour stop la music \n `J` Pour diminuer le volume \n `L` pour augmenter le volume");
 
     //chargé l'image et affiché la partie qui le concerne pour le player
     homer::Entity* player = homer::Engine::Get()->world()->Create("player");

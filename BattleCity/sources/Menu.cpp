@@ -21,7 +21,7 @@ void Menu::Load() {
     homer::Entity* menu = homer::Engine::Get()->world()->Create("Menu");
 
     //texte scene
-    menu->AddComponent<TexteComponent>("Menu \n WASD pour bouger le player \n `F` pour tirer \n `Espace` pour changer de scene");
+    menu->AddComponent<TexteComponent>("Menu \n `E` pour stop anim \n `WASD` pour bouger le player \n `F` pour tirer \n `Espace` pour changer de scene");
     
     //chargé l'image et affiché la partie qui le concerne pour le player
     homer::Entity* player = homer::Engine::Get()->world()->Create("player");
